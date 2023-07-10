@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Controller
 public class HolidayController {
     @GetMapping("/holidays")
-    public String displayHolidaysRequestParam(Model model, @RequestParam(required = false)boolean festival, @RequestParam(required = false) boolean federal) {
+    public String displayHolidaysRequestParam(Model model, @RequestParam(required = false)Boolean festival, @RequestParam(required = false) Boolean federal) {
 
         List<Holiday> holidays = Arrays.asList(
                 new Holiday(" Jan 1 ","New Year's Day", Holiday.Type.FESTIVAL),
@@ -27,6 +27,11 @@ public class HolidayController {
                 new Holiday(" Sep 5 ","Labor Day", Holiday.Type.FEDERAL),
                 new Holiday(" Nov 11 ","Veterans Day", Holiday.Type.FEDERAL)
         );
+        if(festival==null && federal==null)
+        {
+            festival=true;
+            federal=true;
+        }
 
         model.addAttribute("festival",festival);
         model.addAttribute("federal",federal);
@@ -68,6 +73,6 @@ public class HolidayController {
             model.addAttribute(type.toString(),
                     (holidays.stream().filter(holiday -> holiday.getType().equals(type)).collect(Collectors.toList())));
         }
-        return "holidays_pathVariable.html";
+        return "holidays.html";
     }
 }
