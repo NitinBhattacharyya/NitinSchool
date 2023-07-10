@@ -61,6 +61,8 @@ public class ContactController {
             return new ModelAndView("contact.html");
         }
         contactService.saveMessageDetails(contact);
+        contactService.setCounter(contactService.getCounter()+1);
+        log.info("Number of times Contact form is submitted:"+contactService.getCounter());
         return new ModelAndView("redirect:/contact");
     }
 
