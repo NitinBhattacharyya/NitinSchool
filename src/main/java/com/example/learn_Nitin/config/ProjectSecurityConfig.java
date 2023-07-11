@@ -18,5 +18,12 @@ public class ProjectSecurityConfig {
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .build();
+//        return http.
+//                authorizeHttpRequests((requests)->requests
+//                .anyRequest().denyAll())
+//                .formLogin(Customizer.withDefaults())
+//                .httpBasic(Customizer.withDefaults())
+//                .build();
+
     }
 }
