@@ -1,11 +1,16 @@
 package com.example.learn_Nitin.Controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.Authentication;
 
 @Slf4j
 @Controller
@@ -22,5 +27,22 @@ public class LoginController {
         }
         model.addAttribute("errorMessge", errorMessge);
         return "login.html";
+    }
+    @RequestMapping(value="/logout",method=RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response)
+    {
+        //whenever successfull authentication happens during login operation
+        //those authentication details will be saved inside SecurityContextHolder
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        //Instead of getting the authentication details in the above manner
+        //we can also pass Authentication object as parameter to logoutPage mehthod
+        //and spring will automatically create and inject the bean
+        if(auth!=null)
+        {
+            //if the authentication object is not null then it is an indication
+            //the login operation is successfull now the user can perform logout
+            new SecurityContextLogoutHandler().logout(request,response,auth);
+        }
+        return "redirect:/login?logout=true";
     }
 }
