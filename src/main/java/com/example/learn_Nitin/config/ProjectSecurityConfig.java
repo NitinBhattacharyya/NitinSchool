@@ -18,9 +18,10 @@ public class ProjectSecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf((csrf) -> csrf.ignoringRequestMatchers("/saveMsg")
-                        .ignoringRequestMatchers(PathRequest.toH2Console()) )
+                        .ignoringRequestMatchers(PathRequest.toH2Console()))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/dashboard").authenticated()
+                        .requestMatchers("/displayMessages").hasRole("ADMIN")
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("", "/", "/home").permitAll()
                         .requestMatchers("/holidays/**").permitAll()

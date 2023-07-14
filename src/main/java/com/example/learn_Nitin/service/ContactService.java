@@ -13,6 +13,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -45,6 +46,11 @@ public class ContactService {
         //TODO - Need to persist the data into the DB table
         log.info(contact.toString());
         return isSaved;
+    }
+
+    public List<Contact> findMsgsWithOpenStatus() {
+        List<Contact> contactMsgs=contactRepository.findMsgsWithStatus(NitinSchoolConstants.OPEN);
+        return contactMsgs;
     }
 //    public int getCounter()
 //    {
