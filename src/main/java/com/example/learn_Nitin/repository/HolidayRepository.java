@@ -17,7 +17,7 @@ public class HolidayRepository {
     }
     public List<Holiday> findAllHolidays()
     {
-        String sql="SELECT * FROM HOLIDAYS";
+        String sql="SELECT * FROM holidays";
         var rowMapper= BeanPropertyRowMapper.newInstance(Holiday.class);
         //we can create one more row mapper for holidays like ContactRowMapper
         //But when field names and column names inside model class and inside the table are exactly matching

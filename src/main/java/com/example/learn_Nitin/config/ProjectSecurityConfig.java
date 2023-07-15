@@ -17,8 +17,8 @@ public class ProjectSecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf((csrf) -> csrf.ignoringRequestMatchers("/saveMsg")
-                        .ignoringRequestMatchers(PathRequest.toH2Console()))
+                .csrf((csrf) -> csrf.ignoringRequestMatchers("/saveMsg"))
+//                        .ignoringRequestMatchers(PathRequest.toH2Console()))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/dashboard").authenticated()
                         .requestMatchers("/displayMessages").hasRole("ADMIN")
@@ -32,18 +32,18 @@ public class ProjectSecurityConfig {
                         .requestMatchers("/about").permitAll()
                         .requestMatchers("/assets/**").permitAll()
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("/logout").permitAll()
-                        .requestMatchers(PathRequest.toH2Console()).permitAll())
+                        .requestMatchers("/logout").permitAll())
+//                        .requestMatchers(PathRequest.toH2Console()).permitAll())
                 .formLogin(formLogin-> formLogin
                         .loginPage("/login")
                         .defaultSuccessUrl("/dashboard")
                         .failureUrl("/login?error=true")
                         .permitAll())
-                .logout(logout->logout
-                        .logoutSuccessUrl("/login?logout=true")
-                        .invalidateHttpSession(true)
-                        .permitAll())
-                .httpBasic(Customizer.withDefaults())
+//                .logout(logout->logout
+//                        .logoutSuccessUrl("/login?logout=true")
+//                        .invalidateHttpSession(true)
+//                        .permitAll())
+//                .httpBasic(Customizer.withDefaults())
                 .headers().frameOptions().disable();
         return http.build();
 //        return http.
