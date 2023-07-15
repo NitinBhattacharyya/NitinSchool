@@ -52,6 +52,16 @@ public class ContactService {
         List<Contact> contactMsgs=contactRepository.findMsgsWithStatus(NitinSchoolConstants.OPEN);
         return contactMsgs;
     }
+
+    public boolean updateMsgStatus(int contactId, String upatedBy) {
+        boolean isUpdated=false;
+        int result=contactRepository.updateMsgStatus(contactId,NitinSchoolConstants.CLOSE,upatedBy);
+        if(result>0)
+        {
+            isUpdated=true;
+        }
+        return isUpdated;
+    }
 //    public int getCounter()
 //    {
 //        return counter;

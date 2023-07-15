@@ -1,6 +1,8 @@
 package com.example.learn_Nitin.Controller;
 
 import com.example.learn_Nitin.model.Holiday;
+import com.example.learn_Nitin.repository.HolidayRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,19 +16,17 @@ import java.util.stream.Collectors;
 
 @Controller
 public class HolidayController {
+    private HolidayRepository holidayRepository;
+    private List<Holiday> holidays;
+    @Autowired
+    public HolidayController(HolidayRepository holidayRepository) {
+        this.holidayRepository = holidayRepository;
+        this.holidays = holidayRepository.findAllHolidays();
+    }
+
     @GetMapping("/holidays")
     public String displayHolidaysRequestParam(Model model, @RequestParam(required = false)Boolean festival, @RequestParam(required = false) Boolean federal) {
 
-        List<Holiday> holidays = Arrays.asList(
-                new Holiday(" Jan 1 ","New Year's Day", Holiday.Type.FESTIVAL),
-                new Holiday(" Oct 31 ","Halloween", Holiday.Type.FESTIVAL),
-                new Holiday(" Nov 24 ","Thanksgiving Day", Holiday.Type.FESTIVAL),
-                new Holiday(" Dec 25 ","Christmas", Holiday.Type.FESTIVAL),
-                new Holiday(" Jan 17 ","Martin Luther King Day", Holiday.Type.FEDERAL),
-                new Holiday(" July 4 ","Independence Day", Holiday.Type.FEDERAL),
-                new Holiday(" Sep 5 ","Labor Day", Holiday.Type.FEDERAL),
-                new Holiday(" Nov 11 ","Veterans Day", Holiday.Type.FEDERAL)
-        );
         if(festival==null && federal==null)
         {
             festival=true;
@@ -35,7 +35,6 @@ public class HolidayController {
 
         model.addAttribute("festival",festival);
         model.addAttribute("federal",federal);
-//
         Holiday.Type[] types = Holiday.Type.values();
         for (Holiday.Type type : types) {
             model.addAttribute(type.toString(),
@@ -46,16 +45,6 @@ public class HolidayController {
     @GetMapping(value={"/holidays/{display}","/holidays/"})
     public String displayHolidaysPathVariable(Model model,@PathVariable(required = false) String display)
     {
-        List<Holiday> holidays = Arrays.asList(
-                new Holiday(" Jan 1 ","New Year's Day", Holiday.Type.FESTIVAL),
-                new Holiday(" Oct 31 ","Halloween", Holiday.Type.FESTIVAL),
-                new Holiday(" Nov 24 ","Thanksgiving Day", Holiday.Type.FESTIVAL),
-                new Holiday(" Dec 25 ","Christmas", Holiday.Type.FESTIVAL),
-                new Holiday(" Jan 17 ","Martin Luther King Day", Holiday.Type.FEDERAL),
-                new Holiday(" July 4 ","Independence Day", Holiday.Type.FEDERAL),
-                new Holiday(" Sep 5 ","Labor Day", Holiday.Type.FEDERAL),
-                new Holiday(" Nov 11 ","Veterans Day", Holiday.Type.FEDERAL)
-        );
         if(null != display && display.equals("all")){
             model.addAttribute("festival",true);
             model.addAttribute("federal",true);
