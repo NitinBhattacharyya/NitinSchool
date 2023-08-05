@@ -71,7 +71,7 @@ public class ContactController {
         return new ModelAndView("redirect:/contact");
     }
     @RequestMapping("/displayMessages")
-    public ModelAndView displayMessages(Model model)
+    public ModelAndView displayMessages()
     {
         List<Contact> contactMsgs=contactService.findMsgsWithOpenStatus();
         ModelAndView modelAndView=new ModelAndView("messages.html");

@@ -43,8 +43,8 @@ public class ProjectSecurityConfig {
 //                        .logoutSuccessUrl("/login?logout=true")
 //                        .invalidateHttpSession(true)
 //                        .permitAll())
-//                .httpBasic(Customizer.withDefaults())
-                .headers().frameOptions().disable();
+                .httpBasic(Customizer.withDefaults());
+//                .headers().frameOptions().disable();
         return http.build();
 //        return http.
 //                authorizeHttpRequests((requests)->requests
