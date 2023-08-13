@@ -28,6 +28,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class ContactController {
     private final ContactService contactService;
 //    private static Logger log= LoggerFactory.getLogger(ContactController.class);
+    //test
     @Autowired
     public ContactController(ContactService contactService) {
         this.contactService = contactService;
