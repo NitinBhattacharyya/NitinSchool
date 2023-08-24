@@ -37,8 +37,8 @@ public class ContactService {
     public boolean saveMessageDetails(Contact contact) {
         boolean isSaved = false;
         contact.setStatus(NitinSchoolConstants.OPEN);
-        contact.setCreatedBy(NitinSchoolConstants.ANONYMOUS);
-        contact.setCreatedAt(LocalDateTime.now());
+//        contact.setCreatedBy(NitinSchoolConstants.ANONYMOUS);
+//        contact.setCreatedAt(LocalDateTime.now());
 //        int result=contactRepository.saveContactMsg(contact);
         //once the save operation is completed by spring data jpa it is going to return the same object of
         //pojo class along with the primary key value that got generated and stored into the database
@@ -71,8 +71,8 @@ public class ContactService {
         //contact.ifPresent() will check if contact is null or not
         contact.ifPresent(contact1 -> {
             contact1.setStatus(NitinSchoolConstants.CLOSE);
-            contact1.setUpdatedBy(updatedBy);
-            contact1.setUpdatedAt(LocalDateTime.now());
+//            contact1.setUpdatedBy(updatedBy);
+//            contact1.setUpdatedAt(LocalDateTime.now());
         });
         Contact updatedContact=contactRepository.save(contact.get());
         if(updatedContact!=null && updatedContact.getUpdatedBy()!=null)
