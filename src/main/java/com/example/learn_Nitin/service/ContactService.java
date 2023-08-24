@@ -14,6 +14,7 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -38,8 +39,15 @@ public class ContactService {
         contact.setStatus(NitinSchoolConstants.OPEN);
         contact.setCreatedBy(NitinSchoolConstants.ANONYMOUS);
         contact.setCreatedAt(LocalDateTime.now());
-        int result=contactRepository.saveContactMsg(contact);
-        if(result>0)
+//        int result=contactRepository.saveContactMsg(contact);
+        //once the save operation is completed by spring data jpa it is going to return the same object of
+        //pojo class along with the primary key value that got generated and stored into the database
+        Contact savedContact=contactRepository.save(contact);
+//        if(result>0)
+//        {
+//            isSaved=true;
+//        }
+        if(savedContact!=null && savedContact.getContactId()>0)
         {
             isSaved=true;
         }
@@ -49,17 +57,32 @@ public class ContactService {
     }
 
     public List<Contact> findMsgsWithOpenStatus() {
-        List<Contact> contactMsgs=contactRepository.findMsgsWithStatus(NitinSchoolConstants.OPEN);
+//        List<Contact> contactMsgs=contactRepository.findMsgsWithStatus(NitinSchoolConstants.OPEN);
+        List<Contact> contactMsgs=contactRepository.findByStatus(NitinSchoolConstants.OPEN);
         return contactMsgs;
     }
 
-    public boolean updateMsgStatus(int contactId, String upatedBy) {
+    public boolean updateMsgStatus(int contactId, String updatedBy) {
         boolean isUpdated=false;
-        int result=contactRepository.updateMsgStatus(contactId,NitinSchoolConstants.CLOSE,upatedBy);
-        if(result>0)
+//        int result=contactRepository.updateMsgStatus(contactId,NitinSchoolConstants.CLOSE,updatedBy);
+        //First we need to fetch the details and bind it to a pojo class using the primary key contactID
+        //if contactID is not present it may return null so using Optional
+        Optional<Contact> contact=contactRepository.findById(contactId);
+        //contact.ifPresent() will check if contact is null or not
+        contact.ifPresent(contact1 -> {
+            contact1.setStatus(NitinSchoolConstants.CLOSE);
+            contact1.setUpdatedBy(updatedBy);
+            contact1.setUpdatedAt(LocalDateTime.now());
+        });
+        Contact updatedContact=contactRepository.save(contact.get());
+        if(updatedContact!=null && updatedContact.getUpdatedBy()!=null)
         {
             isUpdated=true;
         }
+//        if(result>0)
+//        {
+//            isUpdated=true;
+//        }
         return isUpdated;
     }
 //    public int getCounter()
