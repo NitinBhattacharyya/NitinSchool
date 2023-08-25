@@ -17,7 +17,8 @@ public class ProjectSecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf((csrf) -> csrf.ignoringRequestMatchers("/saveMsg"))
+                .csrf((csrf) -> csrf.ignoringRequestMatchers("/saveMsg")
+                        .ignoringRequestMatchers("/public/**"))
 //                        .ignoringRequestMatchers(PathRequest.toH2Console()))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/dashboard").authenticated()
@@ -32,7 +33,8 @@ public class ProjectSecurityConfig {
                         .requestMatchers("/about").permitAll()
                         .requestMatchers("/assets/**").permitAll()
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("/logout").permitAll())
+                        .requestMatchers("/logout").permitAll()
+                        .requestMatchers("/public/**").permitAll())
 //                        .requestMatchers(PathRequest.toH2Console()).permitAll())
                 .formLogin(formLogin-> formLogin
                         .loginPage("/login")
