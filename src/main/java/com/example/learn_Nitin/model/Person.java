@@ -57,6 +57,7 @@ public class Person extends BaseEntity{
     @Size(min=5, message="Confirm Password must be at least 5 characters long")
     @Transient
     private String confirmPwd;
+
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST, targetEntity = Roles.class)
     @JoinColumn(name = "role_id", referencedColumnName = "role_id",nullable = false)
     private Roles roles;
