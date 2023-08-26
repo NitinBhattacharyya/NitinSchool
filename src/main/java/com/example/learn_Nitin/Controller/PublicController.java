@@ -11,6 +11,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -20,13 +21,16 @@ public class PublicController {
     @Autowired
     PersonService personService;
     @RequestMapping(value="/register",method= RequestMethod.GET)
-    public String displayRegisterPage(Model model)
+    public String displayRegisterPage(@RequestParam(value="error",required = false)String error, Model model)
     {
         model.addAttribute("person",new Person());
+        String errorMessage=null;
+        if(error!=null)errorMessage="You are already registered";
+        model.addAttribute("errorMessage",errorMessage);
         return "register.html";
     }
     @RequestMapping(value="/createUser",method=RequestMethod.POST)
-    public String createUser(@Valid @ModelAttribute("person")Person person, Errors errors)
+    public String createUser(@Valid @ModelAttribute("person")Person person, Errors errors,Model model)
     {
         if(errors.hasErrors())
         {
@@ -38,7 +42,7 @@ public class PublicController {
             return "redirect:/login?register=true";
         }
         else {
-            return "register.html";
+            return "redirect:/public/register?error=true";
         }
     }
 }

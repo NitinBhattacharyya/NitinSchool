@@ -9,6 +9,8 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -78,4 +80,15 @@ public class ProjectSecurityConfig {
 //                .build();
 //        return new InMemoryUserDetailsManager(user,admin);
 //    }
+
+    //We need to indicate to Spring Security that we want to use BCryptPasswordEncoder
+    //as a password encoder implementation inside my project
+    //So with that we can use the same BCrypt Password Encoder throughout my application
+    //whenever the user is registering himself or whenever the user is trying to log into the web application
+
+    @Bean
+    public PasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
 }

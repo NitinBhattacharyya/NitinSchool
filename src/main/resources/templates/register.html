@@ -45,6 +45,8 @@ Author URL: http://w3layouts.com
             <div class="row login-block">
                 <div class="col-md-7 login-center">
                     <ul>
+                        <li class="alert alert-danger" role="alert" th:if="${!#strings.isEmpty(errorMessage)}"
+                            th:text="${errorMessage}" />
                         <li class="alert alert-danger" role="alert" th:each="error : ${#fields.errors('person.*')}" th:text="${error}" />
                     </ul>
                     <form th:action="@{/public/createUser}" method="post" class="signin-form" th:object="${person}">
