@@ -42,6 +42,8 @@ public class PublicController {
             return "redirect:/login?register=true";
         }
         else {
+            //return "redirect:/register?error=true";
+            //the above redirect statement for whatever reason keeps redirecting to /login instead
             return "redirect:/public/register?error=true";
         }
     }
