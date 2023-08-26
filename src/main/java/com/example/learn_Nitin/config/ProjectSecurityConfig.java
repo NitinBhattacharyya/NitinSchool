@@ -56,24 +56,26 @@ public class ProjectSecurityConfig {
 //                .build();
 
     }
+    //Since we have defined your own AuthenticationProvider, it gets priority compared to InMemoryUserDetailsManager
+    //So below code is not needed anymore
     //Creating users inside the memory of the application itself
-    @Bean
-    public InMemoryUserDetailsManager userDetailsManager()
-    {
-        //whenever we are using default password encoder
-        //Spring security framework internally will store my password using plain text itself
-        //If we don't use DefaultPasswordEncoder Spring security will be clueless in what standard
-        //and how to store the password
-        UserDetails admin= User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("12345")
-                .roles("USER")
-                .build();
-        UserDetails user=User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("54321")
-                .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(user,admin);
-    }
+//    @Bean
+//    public InMemoryUserDetailsManager userDetailsManager()
+//    {
+//        //whenever we are using default password encoder
+//        //Spring security framework internally will store my password using plain text itself
+//        //If we don't use DefaultPasswordEncoder Spring security will be clueless in what standard
+//        //and how to store the password
+//        UserDetails admin= User.withDefaultPasswordEncoder()
+//                .username("user")
+//                .password("12345")
+//                .roles("USER")
+//                .build();
+//        UserDetails user=User.withDefaultPasswordEncoder()
+//                .username("admin")
+//                .password("54321")
+//                .roles("ADMIN")
+//                .build();
+//        return new InMemoryUserDetailsManager(user,admin);
+//    }
 }
