@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 @Controller
 //when we put a request mapping on top of a class,it will act as a prefix for all urls mapped inside this class
-@RequestMapping("public")
+@RequestMapping("/public")
 public class PublicController {
     @Autowired
     PersonService personService;
