@@ -29,6 +29,7 @@ public class Person extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO,generator = "native")
     @GenericGenerator(name="native",strategy = "native")
+    @Column(name="person_id")
     private int personID;
 
     @NotBlank(message="Name must not be blank")
@@ -63,6 +64,6 @@ public class Person extends BaseEntity{
     private Roles roles;
 
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL, targetEntity = Address.class)
-    @JoinColumn(name = "address_id", referencedColumnName = "addressId",nullable = true)
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id",nullable = true)
     private Address address;
 }

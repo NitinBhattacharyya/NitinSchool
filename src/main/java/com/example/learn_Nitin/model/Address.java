@@ -1,9 +1,6 @@
 package com.example.learn_Nitin.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -16,6 +13,7 @@ public class Address extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO,generator = "native")
     @GenericGenerator(name = "native",strategy = "native")
+    @Column(name="address_id")
     private int addressID;
 
     @NotBlank(message="Address1 must not be blank")
