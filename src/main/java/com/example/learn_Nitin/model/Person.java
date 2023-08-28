@@ -66,4 +66,12 @@ public class Person extends BaseEntity{
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL, targetEntity = Address.class)
     @JoinColumn(name = "address_id", referencedColumnName = "address_id",nullable = true)
     private Address address;
+
+    //Not using cascading here because there is no scenario where we will
+    //be trying to save the person object with a new class that does not already
+    //exist in DB. So no need for cascading
+    @ManyToOne(fetch=FetchType.LAZY,optional = true)
+    //Join column is used to refer to the foreign key
+    @JoinColumn(name="class_id",referencedColumnName = "classId",nullable = true)
+    private NitinClass nitinClass;
 }
