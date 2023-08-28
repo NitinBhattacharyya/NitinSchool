@@ -44,8 +44,7 @@ public class AdminController {
     public ModelAndView deleteClass(@RequestParam int id)
     {
         Optional<NitinClass> nitinClass=nitinClassRepository.findById(id);
-        for(Person person:nitinClass.get().getPersons())
-        {
+        for(Person person:nitinClass.get().getPersons()) {
             person.setNitinClass(null);
             personRepository.save(person);
         }
@@ -80,6 +79,7 @@ public class AdminController {
         personEntity.setNitinClass(nitinClass);
         personRepository.save(personEntity);
         nitinClass.getPersons().add(personEntity);
+        nitinClassRepository.save(nitinClass);
         modelAndView.setViewName("redirect:/admin/displayStudents?classId="+nitinClass.getClassId());
         return modelAndView;
 

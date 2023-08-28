@@ -23,7 +23,7 @@ public class NitinClass extends BaseEntity{
 
     //cascading is persist because if we try to save the class object with
     //set or list of person objects,we want the person objects to be saved as well
-    @OneToMany(mappedBy = "nitinClass", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "nitinClass", fetch = FetchType.EAGER,
             cascade = CascadeType.PERSIST,targetEntity = Person.class)
     private Set<Person> persons;
 }
