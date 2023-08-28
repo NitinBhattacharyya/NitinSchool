@@ -70,8 +70,8 @@ public class Person extends BaseEntity{
     //Not using cascading here because there is no scenario where we will
     //be trying to save the person object with a new class that does not already
     //exist in DB. So no need for cascading
-    @ManyToOne(fetch=FetchType.LAZY,optional = true)
     //Join column is used to refer to the foreign key
+    @ManyToOne(fetch=FetchType.LAZY,optional = true)
     @JoinColumn(name="class_id",referencedColumnName = "classId",nullable = true)
     private NitinClass nitinClass;
 }
