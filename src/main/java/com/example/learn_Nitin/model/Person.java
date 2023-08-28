@@ -8,9 +8,21 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-@Data
+//@Data
+//@Data generates a toString() implementation that causes issues in mapping for oneToMany and ManyToOne mapping
+/*
+@Data annotation generates equals and hashCode methods relying on entity fields. When you placing order into
+Customer#orders, HashSet tries to compute hashCode of Order, Order refers to Customer which in turn refers to
+Customer#orders - that is why you are getting SO, basically you just need to correctly define equals and
+hashCode methods and do not rely on lombok magic.
+https://stackoverflow.com/questions/34972895/lombok-hashcode-issue-with-java-lang-stackoverflowerror-null
+ */
+@Getter
+@Setter
 @Entity
 @FieldsValueMatch.List({
 

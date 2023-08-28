@@ -44,9 +44,15 @@ public class AdminController {
     public ModelAndView deleteClass(@RequestParam int id)
     {
         Optional<NitinClass> nitinClass=nitinClassRepository.findById(id);
-        for(Person person:nitinClass.get().getPersons()) {
-            person.setNitinClass(null);
-            personRepository.save(person);
+        if(nitinClass.isPresent())
+        {
+            System.out.println("We are here");
+            for(Person person: nitinClass.get().getPersons()) {
+                System.out.println("Lets go");
+                person.setNitinClass(null);
+//                System.out.println("email "+person.getEmail()+" class_id "+person.getNitinClass().getClassId());
+                personRepository.save(person);
+            }
         }
 //        nitinClass.get().setPersons(null);
         nitinClassRepository.deleteById(id);
@@ -78,11 +84,23 @@ public class AdminController {
             return modelAndView;
         }
         personEntity.setNitinClass(nitinClass);
-        personRepository.save(personEntity);
+//        personRepository.save(personEntity);
         nitinClass.getPersons().add(personEntity);
         nitinClassRepository.save(nitinClass);
         modelAndView.setViewName("redirect:/admin/displayStudents?classId="+nitinClass.getClassId());
         return modelAndView;
 
+    }
+    @GetMapping("/deleteStudent")
+    public ModelAndView deleteStudents(@RequestParam int personId, HttpSession session)
+    {
+        NitinClass nitinClass=(NitinClass) session.getAttribute("nitinClass");
+        Optional<Person> person=personRepository.findById(personId);
+        person.get().setNitinClass(null);
+        nitinClass.getPersons().remove(person.get());
+        NitinClass nitinClassSaved=nitinClassRepository.save(nitinClass);
+        session.setAttribute("nitinClass",nitinClassSaved);
+        ModelAndView modelAndView=new ModelAndView("redirect:/admin/displayStudents?classId="+nitinClass.getClassId());
+        return modelAndView;
     }
 }
