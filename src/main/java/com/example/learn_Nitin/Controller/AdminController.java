@@ -48,7 +48,7 @@ public class AdminController {
             person.setNitinClass(null);
             personRepository.save(person);
         }
-        nitinClass.get().setPersons(null);
+//        nitinClass.get().setPersons(null);
         nitinClassRepository.deleteById(id);
         ModelAndView modelAndView=new ModelAndView("redirect:/admin/displayClasses");
         return modelAndView;
