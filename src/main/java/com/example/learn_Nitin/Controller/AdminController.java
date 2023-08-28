@@ -4,6 +4,7 @@ import com.example.learn_Nitin.model.NitinClass;
 import com.example.learn_Nitin.model.Person;
 import com.example.learn_Nitin.repository.NitinClassRepository;
 import com.example.learn_Nitin.repository.PersonRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,9 +54,34 @@ public class AdminController {
         return modelAndView;
     }
     @GetMapping("/displayStudents")
-    public ModelAndView displayStudents(@RequestParam int classId)
+    public ModelAndView displayStudents(@RequestParam int classId, HttpSession session,@RequestParam(value="error",required = false)String error)
     {
+        String errorMessage=null;
+        if(error!=null)errorMessage="Invalid Email Entered";
         ModelAndView modelAndView=new ModelAndView("students.html");
+        Optional<NitinClass> nitinClass=nitinClassRepository.findById(classId);
+        session.setAttribute("nitinClass",nitinClass.get());
+        modelAndView.addObject("nitinClass",nitinClass.get());
+        modelAndView.addObject("person",new Person());
+        modelAndView.addObject("errorMessage",errorMessage);
         return modelAndView;
+    }
+    @PostMapping("/addStudent")
+    public ModelAndView addStudents(@ModelAttribute("person")Person person,HttpSession session)
+    {
+        ModelAndView modelAndView=new ModelAndView();
+        NitinClass nitinClass=(NitinClass) session.getAttribute("nitinClass");
+        Person personEntity=personRepository.readByEmail(person.getEmail());
+        if(personEntity==null || !(personEntity.getPersonID()>0))
+        {
+            modelAndView.setViewName("redirect:/admin/displayStudents?classId="+nitinClass.getClassId()+"&error=true");
+            return modelAndView;
+        }
+        personEntity.setNitinClass(nitinClass);
+        personRepository.save(personEntity);
+        nitinClass.getPersons().add(personEntity);
+        modelAndView.setViewName("redirect:/admin/displayStudents?classId="+nitinClass.getClassId());
+        return modelAndView;
+
     }
 }
