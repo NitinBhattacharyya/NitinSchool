@@ -13,13 +13,11 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 //@Data
-//@Data generates a toString() implementation that causes issues in mapping for oneToMany and ManyToOne mapping
 /*
-@Data annotation generates equals and hashCode methods relying on entity fields. When you placing order into
-Customer#orders, HashSet tries to compute hashCode of Order, Order refers to Customer which in turn refers to
-Customer#orders - that is why you are getting SO, basically you just need to correctly define equals and
-hashCode methods and do not rely on lombok magic.
-https://stackoverflow.com/questions/34972895/lombok-hashcode-issue-with-java-lang-stackoverflowerror-null
+Very useful explanation given in below two articles as to why @Data annotation should
+be avoided for JPA entity classes
+https://jpa-buddy.com/blog/lombok-and-jpa-what-may-go-wrong/
+https://thorben-janssen.com/lombok-hibernate-how-to-avoid-common-pitfalls/
  */
 @Getter
 @Setter
