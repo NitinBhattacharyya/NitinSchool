@@ -118,10 +118,10 @@ public class AdminController {
         return modelAndView;
     }
     @PostMapping("/addNewCourse")
-    public ModelAndView addNewCourse(@ModelAttribute("course")Courses courses)
+    public ModelAndView addNewCourse(@ModelAttribute("course")Courses course)
     {
         ModelAndView modelAndView=new ModelAndView();
-        coursesRepository.save(courses);
+        coursesRepository.save(course);
         modelAndView.setViewName("redirect:/admin/displayCourses");
         return modelAndView;
     }
