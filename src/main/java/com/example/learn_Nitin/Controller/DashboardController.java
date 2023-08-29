@@ -22,6 +22,10 @@ public class DashboardController {
         Person person=personRepository.readByEmail(authentication.getName());
         model.addAttribute("username", person.getName());
         model.addAttribute("roles", authentication.getAuthorities().toString());
+        if(person.getNitinClass()!=null && person.getNitinClass().getName()!=null)
+        {
+            model.addAttribute("enrolledClass",person.getNitinClass().getName());
+        }
         //Binds an object to this session, using the name specified. If an object of the same name is already bound to the session, the object is replaced.
         session.setAttribute("loggedInPerson",person);
 //        throw new RuntimeException("Its been a bad day!!");
