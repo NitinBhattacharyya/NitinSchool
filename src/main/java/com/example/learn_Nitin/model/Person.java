@@ -12,6 +12,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.HashSet;
+import java.util.Set;
+
 //@Data
 /*
 Very useful explanation given in below two articles as to why @Data annotation should
@@ -84,4 +87,12 @@ public class Person extends BaseEntity{
     @ManyToOne(fetch=FetchType.LAZY,optional = true)
     @JoinColumn(name="class_id",referencedColumnName = "classId",nullable = true)
     private NitinClass nitinClass;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "person_courses",
+            joinColumns = {
+                    @JoinColumn(name = "person_id", referencedColumnName = "person_id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "course_id", referencedColumnName = "courseId")})
+    private Set<Courses> courses;
 }
