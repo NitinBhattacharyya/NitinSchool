@@ -1,7 +1,9 @@
 package com.example.learn_Nitin.Controller;
 
+import com.example.learn_Nitin.model.Courses;
 import com.example.learn_Nitin.model.NitinClass;
 import com.example.learn_Nitin.model.Person;
+import com.example.learn_Nitin.repository.CoursesRepository;
 import com.example.learn_Nitin.repository.NitinClassRepository;
 import com.example.learn_Nitin.repository.PersonRepository;
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +25,8 @@ public class AdminController {
     PersonRepository personRepository;
     @Autowired
     NitinClassRepository nitinClassRepository;
+    @Autowired
+    CoursesRepository coursesRepository;
     @RequestMapping(value = "/displayClasses",method = RequestMethod.GET)
     public ModelAndView displayClasses()
     {
@@ -101,6 +105,16 @@ public class AdminController {
         NitinClass nitinClassSaved=nitinClassRepository.save(nitinClass);
         session.setAttribute("nitinClass",nitinClassSaved);
         ModelAndView modelAndView=new ModelAndView("redirect:/admin/displayStudents?classId="+nitinClass.getClassId());
+        return modelAndView;
+    }
+
+    @GetMapping("/displayCourses")
+    public ModelAndView displayCourses()
+    {
+        List<Courses> courses=coursesRepository.findAll();
+        ModelAndView modelAndView=new ModelAndView("courses_secure.html");
+        modelAndView.addObject("courses",courses);
+        modelAndView.addObject("course",new Courses());
         return modelAndView;
     }
 }
