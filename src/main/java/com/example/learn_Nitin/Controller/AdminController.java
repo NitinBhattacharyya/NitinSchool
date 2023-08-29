@@ -155,8 +155,10 @@ public class AdminController {
         }
         personEntity.getCourses().add(courses);
         courses.getPersons().add(personEntity);
+//        personRepository.save(personEntity);
         Courses savedCourses=coursesRepository.save(courses);
         session.setAttribute("courses",savedCourses);
+//        session.setAttribute("courses",courses);
         modelAndView.setViewName("redirect:/admin/viewStudents?id="+courses.getCourseId());
         return modelAndView;
     }

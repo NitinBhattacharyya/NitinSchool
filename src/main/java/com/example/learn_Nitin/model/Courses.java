@@ -20,6 +20,9 @@ public class Courses extends BaseEntity{
 
     private String fees;
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "courses",cascade = CascadeType.PERSIST)
+//    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "courses",cascade = CascadeType.PERSIST)
+//    private Set<Person> persons;
+
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "courses",cascade = CascadeType.MERGE)
     private Set<Person> persons;
 }
