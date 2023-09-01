@@ -85,10 +85,10 @@
                     <span class="fa fa-angle-double-left" aria-hidden="true"></span>
                 </a>
             </li>
-            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+            <span th:each="i: ${#numbers.sequence(0, totalPages)}">
             <li>
-                <a th:if="${currentPage != i}" th:href="@{'/displayMessages/page/' + ${i}+'?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-                <a class="active" th:unless="${currentPage != i}">[[${i}]]</a>
+                <a th:if="${currentPage != i}" th:href="@{'/displayMessages/page/' + ${i}+'?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}+1]]</a>
+                <a class="active" th:unless="${currentPage != i}">[[${i}+1]]</a>
             </li>
             </span>
             <li>

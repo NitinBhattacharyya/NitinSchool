@@ -67,7 +67,7 @@ public class ContactService {
     }
     public Page<Contact> findMsgsWithOpenStatus(int pageNum, String sortField, String sortDir){
         int pageSize = 5;
-        Pageable pageable = PageRequest.of(pageNum - 1, pageSize,
+        Pageable pageable = PageRequest.of(pageNum, pageSize,
                 sortDir.equals("asc") ? Sort.by(sortField).ascending()
                         : Sort.by(sortField).descending());
         Page<Contact> msgPage = contactRepository.findByStatus(
