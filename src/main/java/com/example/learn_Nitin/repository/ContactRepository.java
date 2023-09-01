@@ -4,7 +4,10 @@ import com.example.learn_Nitin.constants.NitinSchoolConstants;
 import com.example.learn_Nitin.model.Contact;
 import com.example.learn_Nitin.rowmappers.ContactRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
@@ -53,9 +56,11 @@ import java.util.List;
 //        });
 //    }
 //}
-public interface ContactRepository extends CrudRepository<Contact,Integer> {
+public interface ContactRepository extends CrudRepository<Contact,Integer>, PagingAndSortingRepository<Contact,Integer> {
     //Indicates to Spring JPA,there is a field called status inside POJO class
     //And that field status corresponds to a column called status inside the table
     //so fetch records based on the status value given
     List<Contact> findByStatus(String status);
+
+    Page<Contact> findByStatus(String status, Pageable pageable);
 }
