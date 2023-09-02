@@ -66,4 +66,7 @@ public interface ContactRepository extends CrudRepository<Contact,Integer>, Pagi
 //    @Query("SELECT c FROM Contact c WHERE c.status= :status")
     @Query(value="SELECT * FROM contact_msg  WHERE status= :status",nativeQuery = true)
     Page<Contact> findByStatus(String status, Pageable pageable);
+    //if lets say our method argument name wasn't status but state now its different from the
+    //placeholder "status" in our query. To rectify this we can use @Param("status)String state
+    // now status placeholder will be mapped to status
 }
