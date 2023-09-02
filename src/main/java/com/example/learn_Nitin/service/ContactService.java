@@ -80,18 +80,21 @@ public class ContactService {
 //        int result=contactRepository.updateMsgStatus(contactId,NitinSchoolConstants.CLOSE,updatedBy);
         //First we need to fetch the details and bind it to a pojo class using the primary key contactID
         //if contactID is not present it may return null so using Optional
-        Optional<Contact> contact=contactRepository.findById(contactId);
+//        Optional<Contact> contact=contactRepository.findById(contactId);
         //contact.ifPresent() will check if contact is null or not
-        contact.ifPresent(contact1 -> {
-            contact1.setStatus(NitinSchoolConstants.CLOSE);
-//            contact1.setUpdatedBy(updatedBy);
-//            contact1.setUpdatedAt(LocalDateTime.now());
-        });
-        Contact updatedContact=contactRepository.save(contact.get());
-        if(updatedContact!=null && updatedContact.getUpdatedBy()!=null)
-        {
-            isUpdated=true;
-        }
+//        contact.ifPresent(contact1 -> {
+//            contact1.setStatus(NitinSchoolConstants.CLOSE);
+////            contact1.setUpdatedBy(updatedBy);
+////            contact1.setUpdatedAt(LocalDateTime.now());
+//        });
+//        Contact updatedContact=contactRepository.save(contact.get());
+        //The above is not required since we wrote a custom query to update directly
+        int rowsAffected=contactRepository.updateStatusById(NitinSchoolConstants.CLOSE,contactId);
+//        if(updatedContact!=null && updatedContact.getUpdatedBy()!=null)
+//        {
+//            isUpdated=true;
+//        }
+        if(rowsAffected>0)isUpdated=true;
 //        if(result>0)
 //        {
 //            isUpdated=true;
