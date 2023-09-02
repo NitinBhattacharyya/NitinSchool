@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
@@ -65,8 +66,10 @@ public interface ContactRepository extends CrudRepository<Contact,Integer>, Pagi
     //so fetch records based on the status value given
     List<Contact> findByStatus(String status);
 
-//    @Query("SELECT c FROM Contact c WHERE c.status= :status")
-    @Query(value="SELECT * FROM contact_msg  WHERE status= :status",nativeQuery = true)
+    @Query("SELECT c FROM Contact c WHERE c.status= :status")
+//    @Query(value="SELECT * FROM contact_msg  WHERE status= :status",nativeQuery = true)
+    //The native query fails to sort for mobileNum as it passes the column name as mobileNum
+    //instead of mobile_num
     Page<Contact> findByStatus(String status, Pageable pageable);
     //if lets say our method argument name wasn't status but state now its different from the
     //placeholder "status" in our query. To rectify this we can use @Param("status)String state
@@ -77,4 +80,18 @@ public interface ContactRepository extends CrudRepository<Contact,Integer>, Pagi
     @Query("UPDATE Contact c SET c.status=?1 WHERE c.contactId=?2")
     int updateStatusById(String status,int id);
     //the above method will return how many records were affected
+
+    @Transactional
+    @Modifying
+    int updateMsgStatus(String status,int id);
+
+    Page<Contact> findOpenMsgs(@Param("status")String status,Pageable pageable);
+
+    @Query(nativeQuery = true)
+    Page<Contact> findOpenMsgsNative(@Param("status")String status,Pageable pageable);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true)
+    int updateMsgStatusNative(String status,int id);
 }

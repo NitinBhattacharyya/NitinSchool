@@ -72,6 +72,19 @@ public class ContactService {
                         : Sort.by(sortField).descending());
         Page<Contact> msgPage = contactRepository.findByStatus(
                 NitinSchoolConstants.OPEN,pageable);
+        //The below application of @NamedQuery will fail to apply sorting,so its better to use @Query
+        //The below is the reason why
+        /*
+        After a brief investigation, this is a current limitation of using named queries. As Spring Data JPA uses the named queries by name (as the name suggests), we don't really access the query internals. The latter is needed to apply a Sort instance to the query as we effectively have to extend it with an ORDER BY clause.
+
+That's why the lookup of the named query fails and the query lookup falls back to the deriving strategy. I can see that this is suboptimal and needs to be improved. Note that you should find a warning in your logs that indicates the method taking a Pageable not getting any sort criteria applied.
+
+While we certainly could apply a quick fix here to just throw an exception in this case I think we can even do better and implement support for Sort on named queries in general. There already is code that will extract the original query from a JPA Query instance if the persistence provider supports that (Hibernate, Eclipselink, OpenJPA do). That means we could actually extract the original query in such scenarios and basically treat the query obtained as if it was manually defined in @Query.
+
+Suggested workaround for now: use @Query on the repository interface (MHO that's the more logical place to declare queries anyway as that's where they get executed and don't pollute the domain model)
+         */
+//        Page<Contact> msgPage=contactRepository.findOpenMsgs(NitinSchoolConstants.OPEN,pageable);
+//        Page<Contact> msgPage=contactRepository.findOpenMsgsNative(NitinSchoolConstants.OPEN,pageable);
         return msgPage;
     }
 
@@ -89,7 +102,9 @@ public class ContactService {
 //        });
 //        Contact updatedContact=contactRepository.save(contact.get());
         //The above is not required since we wrote a custom query to update directly
-        int rowsAffected=contactRepository.updateStatusById(NitinSchoolConstants.CLOSE,contactId);
+//        int rowsAffected=contactRepository.updateStatusById(NitinSchoolConstants.CLOSE,contactId);
+        int rowsAffected=contactRepository.updateMsgStatus(NitinSchoolConstants.CLOSE,contactId);
+//        int rowsAffected=contactRepository.updateMsgStatusNative(NitinSchoolConstants.CLOSE,contactId);
 //        if(updatedContact!=null && updatedContact.getUpdatedBy()!=null)
 //        {
 //            isUpdated=true;
