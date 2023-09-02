@@ -76,4 +76,5 @@ public interface ContactRepository extends CrudRepository<Contact,Integer>, Pagi
     @Modifying
     @Query("UPDATE Contact c SET c.status=?1 WHERE c.contactId=?2")
     int updateStatusById(String status,int id);
+    //the above method will return how many records were affected
 }
