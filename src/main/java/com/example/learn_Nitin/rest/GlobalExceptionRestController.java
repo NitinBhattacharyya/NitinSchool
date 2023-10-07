@@ -9,10 +9,14 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice(annotations = RestController.class)
@@ -30,11 +34,16 @@ public class GlobalExceptionRestController extends ResponseEntityExceptionHandle
 
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Response> exceptionHandler(Exception exception)
-    {
-        Response response=new Response("500",exception.getMessage());
-        System.out.println("exception: "+exception.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+
+    //The below code will not run if we extend ResponseEntityExceptionHandler,because then default ExceptionHandlerExceptionResolver will be invoked
+//    @ExceptionHandler(Exception.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public Map<String,String> exceptionHandler(MethodArgumentNotValidException e)
+//    {
+//        Map<String,String> errormap=new HashMap<>();
+//        e.getBindingResult().getFieldErrors().forEach(error->{
+//            errormap.put(error.getField(),error.getDefaultMessage());
+//        });
+//        return errormap;
+//    }
 }
