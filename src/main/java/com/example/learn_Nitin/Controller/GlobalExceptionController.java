@@ -1,6 +1,7 @@
 package com.example.learn_Nitin.Controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,7 +13,7 @@ as an interceptor of exceptions thrown by methods annotated with @RequestMapping
 * */
 
 @Slf4j
-@ControllerAdvice
+@ControllerAdvice(annotations = Controller.class)//annotations= Controller.class restricts this advice to classes annotated with @controller
 public class GlobalExceptionController {
     /*
    @ExceptionHandler will register the given method for a given
