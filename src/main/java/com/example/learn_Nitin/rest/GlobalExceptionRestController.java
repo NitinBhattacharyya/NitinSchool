@@ -34,6 +34,7 @@ public class GlobalExceptionRestController extends ResponseEntityExceptionHandle
     public ResponseEntity<Response> exceptionHandler(Exception exception)
     {
         Response response=new Response("500",exception.getMessage());
+        System.out.println("exception: "+exception.getMessage());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
