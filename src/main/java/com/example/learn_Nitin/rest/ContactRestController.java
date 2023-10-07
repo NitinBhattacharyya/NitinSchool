@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @RestController
 @Slf4j
 @RequestMapping("/api/contact")
+@CrossOrigin(origins = "*")
 public class ContactRestController {
     @Autowired
     ContactRepository contactRepository;
