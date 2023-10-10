@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.ConsumeRestService.ConsumeRestService.proxy.ContactProxy;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -21,6 +23,9 @@ public class ContactController {
 
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    WebClient webClient
 
     @GetMapping("/getMessages")
     public List<Contact> getMessages(@RequestParam("status")String status)
@@ -37,5 +42,16 @@ public class ContactController {
         HttpEntity<Contact> httpEntity=new HttpEntity<>(contact,headers);
         ResponseEntity<Response> responseEntity=restTemplate.exchange(url, HttpMethod.POST,httpEntity,Response.class);
         return responseEntity;
+    }
+
+    @PostMapping("/saveMessage")
+    public Mono<Response> saveMessage(@RequestBody Contact contact)
+    {
+        String uri="http://localhost:8080/NitinSchool/api/contact/saveMsg";
+        return webClient.post().uri(uri)
+                .header("invocationFrom","webClient")
+                .body(Mono.just(contact),Contact.class)
+                .retrieve()
+                .bodyToMono(Response.class);
     }
 }
