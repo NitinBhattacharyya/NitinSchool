@@ -70,7 +70,7 @@ public class ContactService {
         Pageable pageable = PageRequest.of(pageNum, pageSize,
                 sortDir.equals("asc") ? Sort.by(sortField).ascending()
                         : Sort.by(sortField).descending());
-        Page<Contact> msgPage = contactRepository.findByStatus(
+        Page<Contact> msgPage = contactRepository.findByStatusWithQuery(
                 NitinSchoolConstants.OPEN,pageable);
         //The below application of @NamedQuery will fail to apply sorting,so its better to use @Query
         //The below is the reason why

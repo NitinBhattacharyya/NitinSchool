@@ -70,7 +70,7 @@ public interface ContactRepository extends CrudRepository<Contact,Integer>, Pagi
 //    @Query(value="SELECT * FROM contact_msg  WHERE status= :status",nativeQuery = true)
     //The native query fails to sort for mobileNum as it passes the column name as mobileNum
     //instead of mobile_num
-    Page<Contact> findByStatus(String status, Pageable pageable);
+    Page<Contact> findByStatusWithQuery(String status, Pageable pageable);
     //if lets say our method argument name wasn't status but state now its different from the
     //placeholder "status" in our query. To rectify this we can use @Param("status)String state
     // now status placeholder will be mapped to status
