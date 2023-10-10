@@ -21,10 +21,11 @@ public class ProjectSecurityConfig {
         http
                 .csrf((csrf) -> csrf.ignoringRequestMatchers("/saveMsg")
                         .ignoringRequestMatchers("/public/**")
-                        .ignoringRequestMatchers("/api/**"))
+                        .ignoringRequestMatchers("/api/**")
+                        .ignoringRequestMatchers("/data-api/**"))
 //                        .ignoringRequestMatchers(PathRequest.toH2Console()))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/profile/**").permitAll()
+                        .requestMatchers("/data-api/**").authenticated()
                         .requestMatchers("/api/**").authenticated()
                         .requestMatchers("/dashboard").authenticated()
                         .requestMatchers("/displayMessages/**").hasRole("ADMIN")
