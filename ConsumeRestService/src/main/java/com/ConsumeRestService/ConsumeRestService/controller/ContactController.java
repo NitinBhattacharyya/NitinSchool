@@ -25,7 +25,7 @@ public class ContactController {
     RestTemplate restTemplate;
 
     @Autowired
-    WebClient webClient
+    WebClient webClient;
 
     @GetMapping("/getMessages")
     public List<Contact> getMessages(@RequestParam("status")String status)
