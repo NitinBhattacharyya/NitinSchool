@@ -13,4 +13,10 @@ with distinct portal functionality.
 
 Live link: http://nitinschool-env.eba-gcwmsw3r.ap-south-1.elasticbeanstalk.com/NitinSchool/
 
+Admin Credentials
+
+Username: admin@NitinSchool.com
+
+Password: admin
+
 
