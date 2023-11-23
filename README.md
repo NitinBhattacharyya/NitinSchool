@@ -12,6 +12,7 @@ with distinct portal functionality.
 • Hosted MySQL databse on AWS RDS and Deployed the application using AWS Elastic Beanstalk
 
 Live link: http://nitinschool-env.eba-gcwmsw3r.ap-south-1.elasticbeanstalk.com/NitinSchool/
+(On mobile make sure http is not automatically converted to https)
 
 Admin Credentials
 
